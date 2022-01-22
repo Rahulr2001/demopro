@@ -1,4 +1,4 @@
-type Restaurant @model {
+type Restaurant @model @auth(rules: [{allow: public}]) {
   Name: String!
   Email: String
   Location:String

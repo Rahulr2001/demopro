@@ -6,7 +6,11 @@
     "gqlSchemaPath": "/mnt/c/Users/rahul.DESKTOP-GMV0UC4.000/Desktop/proj/myapp/amplify/backend/api/demoapp/schema.graphql",
     "defaultAuthType": {
       "mode": "API_KEY",
-      "expirationTime": 7
-    }
+      "expirationTime": 40,
+      "apiKeyExpirationDate": "2022-03-03T19:06:42.497Z",
+      "keyDescription": "schemapublic"
+    },
+    "conflictResolution": {},
+    "additionalAuthTypes": []
   }
 }

@@ -3,6 +3,16 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import Amplify from 'aws-amplify'
+
+const myAppConfig = {
+  'aws_appsync_graphqlEndpoint': 'https://mfocut72xrcgjnj3pwg76aol74.appsync-api.us-east-1.amazonaws.com/graphql',
+  'aws_appsync_region': 'us-east-1',
+  'aws_appsync_authenticationType': 'API_KEY',
+  'aws_appsync_apiKey': 'da2-xgr6vjyejzbxhgcndeqoxen4re',
+}
+
+Amplify.configure(myAppConfig);
 
 ReactDOM.render(
   <React.StrictMode>

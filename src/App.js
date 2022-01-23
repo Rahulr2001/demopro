@@ -50,14 +50,16 @@ class App extends Component {
             value={this.state.Email}
             style={styles.input}
           />
-          <input
-            name='Location'
-            placeholder='Location'
-            onChange={this.onChange}
-            value={this.state.Location}
-            style={styles.input}
-          />
+          <select name="Location" onChange={this.onChange} value={this.state.Location} style={styles.select}>
+          <option value="India">India</option>
+          <option value="Australia">Australia</option>
+          <option value="America">America</option>
+          <option value="Canada">Canada</option>
+          <option value="Dubai">Dubai</option>
+          <option value="Russia">Russia</option>
+          </select>
         </div>
+
         <button
           style={styles.button}
           onClick={this.createRestaurant}
@@ -75,7 +77,6 @@ class App extends Component {
     );
   }
 }
-
 const styles = {
   inputContainer: {
     margin: '0 auto', display: 'flex', flexDirection: 'column', width: 300
@@ -91,13 +92,20 @@ const styles = {
     backgroundColor: "#ddd",
     padding: 8
   },
+  select:{
+    fontSize:18,
+    margin: 10,
+    height:35,
+    backgroundColor:"#ddd",
+    padding:8
+  },
   item: {
     padding: 10,
     borderBottom: '2px solid #ddd'
   },
   Name: { fontSize: 22 },
   Email: { color: 'rgba(0, 0, 0, .45)' },
-  Location: { fontSize: 20}
+  Location:{ fontSize: 22}
 }
 
 export default App

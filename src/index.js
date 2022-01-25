@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+//import RegisterForm from './vform';
 import reportWebVitals from './reportWebVitals';
 import Amplify from 'aws-amplify'
+import App from './App';
 
 const myAppConfig = {
   'aws_appsync_graphqlEndpoint': 'https://mfocut72xrcgjnj3pwg76aol74.appsync-api.us-east-1.amazonaws.com/graphql',

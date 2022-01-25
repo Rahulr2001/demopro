@@ -21,7 +21,7 @@ class App extends Component {
   }
   createRestaurant = async () => {
     const { Name, Email, Location } = this.state
-    //if (Name === '' || Email === '' || Location === '') return
+    if (Name === '' || Email === '' || Location === '') return
     try {
       const restaurant = { Name, Email, Location }
       const restaurants = [...this.state.restaurants, restaurant]
@@ -34,7 +34,7 @@ class App extends Component {
   }
   render() {
     return (
-      <div className="App">
+      <form className="App">
         <div style={styles.inputContainer}>
           <input
             name='Name'
@@ -42,6 +42,7 @@ class App extends Component {
             onChange={this.onChange}
             value={this.state.Name}
             style={styles.input}
+            required
           />
           <input
             name='Email'
@@ -49,8 +50,9 @@ class App extends Component {
             onChange={this.onChange}
             value={this.state.Email}
             style={styles.input}
+            required
           />
-          <select name="Location" onChange={this.onChange} value={this.state.Location} style={styles.select}>
+          <select name="Location" onChange={this.onChange} value={this.state.Location} style={styles.select} required>
           <option>Select Your Country \/</option>  
           <option value="India">India</option>
           <option value="Australia">Australia</option>
@@ -74,7 +76,7 @@ class App extends Component {
             </div>
           ))
         }
-      </div>
+      </form>
     );
   }
 }

@@ -136,7 +136,7 @@ class App extends Component {
 
 
 const validationSchema = Yup.object({
-  Name: Yup.string().required("Name Cannot Be Empty"),
+  Name: Yup.string().required("Name Cannot Be Empty").min(2,"Name is too Short"),
   Email: Yup.string().required("Email Cannot be Empty").email("Enter An Valid Email"),
   Location:Yup.string().required("Select An Location")
 });

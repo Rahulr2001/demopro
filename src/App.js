@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import './App.css';
-
+import { Formik } from "formik";
+import * as Yup from "yup";
 import { API, graphqlOperation } from 'aws-amplify'
 import { listRestaurants } from './graphql/queries'
 import { createRestaurant } from './graphql/mutations'
+//import { create } from 'yup/lib/Reference';
 
 class App extends Component {
   state = { Name: '', Email: '', Location: '', restaurants: [] }
@@ -16,44 +18,90 @@ class App extends Component {
       console.log('error: ', err)
     }
   }
-  onChange = e => {
-    this.setState({ [e.target.name]: e.target.value })
-  }
-  createRestaurant = async () => {
-    const { Name, Email, Location } = this.state
-    if (Name === '' || Email === '' || Location === '') return
-    try {
-      const restaurant = { Name, Email, Location }
-      const restaurants = [...this.state.restaurants, restaurant]
-      this.setState({ restaurants, Name: '', Email: '', Location: '' })
-      await API.graphql(graphqlOperation(createRestaurant, {input: restaurant}))
-      console.log('Data successfully created!')
-    } catch (err) {
-      console.log('error: ', err)
-    }
-  }
-  render() {
+ 
+  //onChange = e => {
+ //   this.setState({ [e.target.name]: e.target.value })
+ // }
+  //createRestaurant = async () => {
+    //const { Name, Email, Location } = this.state
+    //const { Name, Email, Location } = values
+    //if (Name === '' || Email === '' || Location === '') return
+  //  try {
+     // const value = { Name, Email, Location }
+      //const restaurants = [...this.state.restaurants, restaurant]
+      //this.setState({ restaurants, Name: '', Email: '', Location: '' })
+   //   await API.graphql(graphqlOperation(createRestaurant, {input: value}))
+//console.log('Data successfully created!')
+ //   } catch (err) {
+  //    console.log('error: ', err)
+ //   }
+//  }
+  
+ render() {
     return (
-      <form className="App">
+      <Formik
+      initialValues={
+        {
+          Name:"",
+          Email:"",
+          Location:""
+        }
+      }
+      validationSchema={validationSchema}
+      onSubmit={values => {
+       //this.createRestaurant(values)
+       const createi = async () => {
+        //const { Name, Email, Location } = this.state
+        const { Name, Email, Location } = values
+        //if (Name === '' || Email === '' || Location === '') return
+        try {
+          const value = { Name, Email, Location }
+          //const restaurants = [...this.state.restaurants, restaurant]
+          //this.setState({ restaurants, Name: '', Email: '', Location: '' })
+          await API.graphql(graphqlOperation(createRestaurant, {input: value}))
+          console.log('Data successfully created!')
+          alert('Data is Inserted..')
+          window.location.reload();
+        } catch (err) {
+          console.log('error: ', err)
+        }
+      }
+      createi();
+      }}
+    >
+      {
+      ({ handleSubmit, handleChange, values, errors }) =>
+       (
+      <form className="App" onSubmit={handleSubmit}>
         <div style={styles.inputContainer}>
+        <label style={styles.titles}>NAME:</label>
           <input
             name='Name'
-            placeholder='Name'
-            onChange={this.onChange}
-            value={this.state.Name}
-            style={styles.input}
-            required
+            //placeholder='Name'
+            onChange={handleChange}
+            value={values.Name}
+            //value={this.state.Name}
+            style={styles.input}            
           />
+          <small style={styles.error}>{errors.Name}</small>
+          <label style={styles.titles}>EMAIL:</label>
           <input
             name='Email'
-            placeholder='Email'
-            onChange={this.onChange}
-            value={this.state.Email}
-            style={styles.input}
-            required
+            //placeholder='Email'
+            onChange={handleChange}
+            //onChange={this.onChange}
+            value={values.Email}
+            //value={this.state.Email}
+            style={styles.input}            
           />
-          <select name="Location" onChange={this.onChange} value={this.state.Location} style={styles.select} required>
-          <option>Select Your Country \/</option>  
+          <small style={styles.error} >{errors.Email}</small>
+          <label style={styles.titles}>LOCATION:</label>
+          <select name="Location" 
+          //onChange={this.onChange} 
+          onChange={handleChange}
+          value={values.Location}
+          //value={this.state.Location} 
+          style={styles.select} > 
           <option value="India">India</option>
           <option value="Australia">Australia</option>
           <option value="America">America</option>
@@ -61,11 +109,13 @@ class App extends Component {
           <option value="Dubai">Dubai</option>
           <option value="Russia">Russia</option>
           </select>
+          <small style={styles.error}>{errors.Location}</small>
         </div>
-
         <button
+        type='submit'
           style={styles.button}
-          onClick={this.createRestaurant}
+          //onClick={this.createRestaurant}
+          //onClick={window.location.reload()}
         >Create</button>
         {
           this.state.restaurants.map((rest, i) => (
@@ -77,9 +127,21 @@ class App extends Component {
           ))
         }
       </form>
-    );
-  }
+          
+    )}
+   </Formik>)
 }
+}
+
+
+
+const validationSchema = Yup.object({
+  Name: Yup.string().required("Name Cannot Be Empty"),
+  Email: Yup.string().required("Email Cannot be Empty").email("Enter An Valid Email"),
+  Location:Yup.string().required("Select An Location")
+});
+  
+
 const styles = {
   inputContainer: {
     margin: '0 auto', display: 'flex', flexDirection: 'column', width: 300
@@ -89,18 +151,19 @@ const styles = {
   },
   input: {
     fontSize: 18,
-    border: 'none',
+    borderColor: 'blue',
     margin: 10,
-    height: 35,
+    height: 20,
     backgroundColor: "#ddd",
-    padding: 8
+    padding: 8,
   },
   select:{
     fontSize:18,
     margin: 10,
-    height:35,
+    height:40,
     backgroundColor:"#ddd",
-    padding:8
+    padding:8,
+    borderColor:'blue'
   },
   item: {
     padding: 10,
@@ -108,7 +171,14 @@ const styles = {
   },
   Name: { fontSize: 22 },
   Email: { color: 'rgba(0, 0, 0, .45)' },
-  Location:{ fontSize: 22}
+  Location:{ fontSize: 22},
+  error:{
+    color:'red',
+    fontSize:12
+  },
+  titles:{
+  display:'flex',
+  fontWeight:'bold'
+  }
 }
-
 export default App
